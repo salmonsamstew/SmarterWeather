@@ -25,7 +25,11 @@ import OpenWeatherMap from "./open_weather_map";
 class WeatherProject extends Component {
   constructor(props) {
     super(props);
-    this.state = { forecast: null };
+    this.state = { 
+      imageArray:require("./PhotoBackdrop/Sexy Sax man.jpg").uri,
+      forecast: null,
+       curTime:"0",
+       timerID:undefined };
   }
 
 
@@ -109,6 +113,36 @@ class WeatherProject extends Component {
       .catch(error => console.error("AsyncStorage error: " + error.message))
       .done();
       this._retrieveData();
+      this.state.timerID = this.setInterval(() => {
+        console.log("Timer Called");
+
+        function clock() {// We create a new Date object and assign it to a variable called "time".
+var time = new Date(),
+
+    // Access the "getHours" method on the Date object with the dot accessor.
+    hours = time.getHours(),
+
+    // Access the "getMinutes" method with the dot accessor.
+    minutes = time.getMinutes(),
+
+
+    seconds = time.getSeconds();
+
+document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(minutes) + ":" + harold(seconds);
+
+  function harold(standIn) {
+    if (standIn < 10) {
+      standIn = '0' + standIn
+    }
+    return standIn;
+  }
+}
+setInterval(clock, 1000);
+
+        this.setState((prevState)=> return
+        {curTime:prevState.curTime:+1)};
+      });
+      }, 1000);
   }
 
   _getForecastForZip = zip => {
@@ -152,12 +186,16 @@ class WeatherProject extends Component {
     }
 
     return (
-      <PhotoBackdrop image={this.state.newPostImage} >
+      <PhotoBackdrop image={this.state.imageArray} >
         <View style={styles.overlay}>
           <View style={styles.row}>
             <Text style={textStyles.mainText}>
               Forecast for
             </Text>
+
+            <View style={styles.row}>
+            <Text style={{color: "#FFFFFF", fontSize:
+          72}}></Text>
 
             <View style={styles.zipContainer}>
               <TextInput
@@ -168,7 +206,7 @@ class WeatherProject extends Component {
             </View>
           </View>
 
-           
+
           <View style={styles.row}>
             <Button onPress={this.checkMultiPermissions} label="Choose Image"></Button>
           </View>
